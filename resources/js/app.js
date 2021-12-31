@@ -12,7 +12,26 @@ createInertiaApp({
     setup({ el, app, props, plugin }) {
         return createApp({ render: () => h(app, props) })
             .use(plugin)
-            .mixin({ methods: { route } })
+            .mixin({
+                methods: {
+                    route,
+                    copyToClipboard(text) {
+                        let dummy = document.createElement("input");
+                        dummy.value = text;
+
+                        document.body.appendChild(dummy);
+                        dummy.select();
+
+                        try {
+                          document.execCommand("copy");
+                        } catch (err) {
+                          console.error(err)
+                        }
+
+                        document.body.removeChild(dummy);
+                      }
+                }
+            })
             .mount(el);
     },
 });

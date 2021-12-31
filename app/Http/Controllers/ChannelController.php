@@ -9,26 +9,10 @@ use Illuminate\Http\Request;
 class ChannelController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $channels = Channel::query()
-            ->whereNull('closed_at')
-            ->whereDate('expired_at', '<', now())
-            ->paginate()
-            ->withQueryString();
-
-        return $channels;
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreChannelRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreChannelRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreChannelRequest $request)
     {
@@ -36,16 +20,18 @@ class ChannelController extends Controller
         $channel->name = $request->name;
         $channel->user()->associate($request->user());
         $channel->save();
+
+        return redirect()->route('dashboard');
     }
 
     /**
      * Open the video stream of the specified resource.
      *
      * @param Request $request
-     * @param  \App\Models\Channel  $channel
+     * @param \App\Models\Channel $channel
      * @return \Illuminate\Http\Response
      */
-    public function open(Request $request, Channel $channel)
+    public function show(Request $request, Channel $channel)
     {
         $user = $request->user();
 
@@ -55,7 +41,7 @@ class ChannelController extends Controller
             }
         }
 
-        if ($channel->expired_at > now()) {
+        if ($channel->expired_at < now()) {
             abort(403, 'Channel is expired.');
         }
 
@@ -65,18 +51,19 @@ class ChannelController extends Controller
     /**
      * Close the video stream.
      *
-     * @param  \App\Models\Channel  $channel
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param \App\Models\Channel $channel
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function close(Channel $channel)
+    public function close(Request $request, Channel $channel)
     {
-        $this->authorize('delete', $channel);
+        if ($channel->user_id === $request->user()->id) {
+            if (!$channel->closed_at) {
+                $channel->closed_at = now();
+                $channel->save();
+            }
+        }
 
-        abort_if($channel->expired_at, 403, 'Channel is expired.');
-
-        $channel->closed_at = now();
-        $channel->save();
-
-        return;
+        return redirect()->route('dashboard');
     }
 }

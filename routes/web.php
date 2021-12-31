@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +26,10 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::post('/channels', [ChannelController::class, 'store'])->name('channels.store');
+    Route::get('/channels/{channel:finder}', [ChannelController::class, 'show'])->name('channels.show');
+});
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

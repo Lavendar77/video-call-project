@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Jobs\CloseChannelJob;
 use App\Models\Channel;
+use Illuminate\Support\Str;
 
 class ChannelObserver
 {
@@ -15,8 +16,8 @@ class ChannelObserver
      */
     public function creating(Channel $channel)
     {
-        $channel->finder = now()->timestamp;
-        $channel->expired_at = $channel->created_at->addHours(config('settings.channel_life_in_hours'));
+        $channel->finder = Str::orderedUuid()->toString();
+        $channel->expired_at = now()->addHours(config('settings.channel_life_in_hours'));
     }
 
     /**
