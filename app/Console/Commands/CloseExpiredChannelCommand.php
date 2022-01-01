@@ -5,21 +5,21 @@ namespace App\Console\Commands;
 use App\Models\Channel;
 use Illuminate\Console\Command;
 
-class CloseLongLivedChannelCommand extends Command
+class CloseExpiredChannelCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'channel:close-long-lives';
+    protected $signature = 'channel:close-expired';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Close long-lived channels (more than 1 hour long)';
+    protected $description = 'Close expired channels';
 
     /**
      * Create a new command instance.
@@ -39,7 +39,7 @@ class CloseLongLivedChannelCommand extends Command
     public function handle()
     {
         Channel::query()
-            ->whereDate('expired_at', '>', now())
+            ->where('expired_at', '<', now())
             ->whereNull('closed_at')
             ->chunkById(100, function ($channels) {
                 foreach ($channels as $channel) {
