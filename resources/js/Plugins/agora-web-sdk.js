@@ -6,7 +6,7 @@ let rtc = {
     client: null
 };
 
-async function startBasicCall(appId, token, channel, uid) {
+async function startBasicCall(appId, token, channel, uid, channelRoom) {
     // Create an AgoraRTCClient object.
     rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
@@ -50,6 +50,11 @@ async function startBasicCall(appId, token, channel, uid) {
             let remotePlayerContainer = document.getElementById(user.uid);
             // Destroy the container.
             remotePlayerContainer && remotePlayerContainer.remove();
+
+            if (user.uid === channelRoom.user_id) {
+                endCall();
+                alert('Call was ended.')
+            }
         });
 
     });

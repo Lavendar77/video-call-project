@@ -20068,7 +20068,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    (0,_Plugins_agora_web_sdk__WEBPACK_IMPORTED_MODULE_3__.startBasicCall)("230863d6d677444ab572d08238588b71", "006230863d6d677444ab572d08238588b71IACPxLiDe3vtsToQOkO5rXx5TmXxDc928xi6I+kQT+Y+SJ5wcHYAAAAAEADdovT0JN/TYQEAAQAh39Nh", "Demo", this.user.id);
+    (0,_Plugins_agora_web_sdk__WEBPACK_IMPORTED_MODULE_3__.startBasicCall)("230863d6d677444ab572d08238588b71", "006230863d6d677444ab572d08238588b71IACPxLiDe3vtsToQOkO5rXx5TmXxDc928xi6I+kQT+Y+SJ5wcHYAAAAAEADdovT0JN/TYQEAAQAh39Nh", "Demo", this.user.id, this.channel);
   }
 });
 
@@ -21845,12 +21845,12 @@ var rtc = {
   client: null
 };
 
-function startBasicCall(_x, _x2, _x3, _x4) {
+function startBasicCall(_x, _x2, _x3, _x4, _x5) {
   return _startBasicCall.apply(this, arguments);
 }
 
 function _startBasicCall() {
-  _startBasicCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(appId, token, channel, uid) {
+  _startBasicCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(appId, token, channel, uid, channelRoom) {
     var playerContainer, localPlayerContainer;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
       while (1) {
@@ -21908,6 +21908,11 @@ function _startBasicCall() {
                           var remotePlayerContainer = document.getElementById(user.uid); // Destroy the container.
 
                           remotePlayerContainer && remotePlayerContainer.remove();
+
+                          if (user.uid === channelRoom.user_id) {
+                            endCall();
+                            alert('Call was ended.');
+                          }
                         });
 
                       case 6:
@@ -21918,7 +21923,7 @@ function _startBasicCall() {
                 }, _callee);
               }));
 
-              return function (_x5, _x6) {
+              return function (_x6, _x7) {
                 return _ref.apply(this, arguments);
               };
             }()); // Join an RTC channel.
