@@ -83,9 +83,4 @@ async function startBasicCall(appId, token, channel, uid) {
     }
 }
 
-startBasicCall(
-    process.env.MIX_AGORA_APP_ID,
-    process.env.MIX_AGORA_APP_TOKEN,
-    process.env.MIX_AGORA_APP_CHANNEL,
-    123456
-);
+export { startBasicCall };
