@@ -16,3 +16,8 @@ This is a simple project for Video Calling via the web. Using Agora.io
 
 ## References
 1. [Database Design](https://dbdiagram.io/d/61ceb4b03205b45b73d2ab20)
+
+## Tests
+1. Basic Video Call
+   Straight from the docs...
+   ![first-test](public/first-test.png)

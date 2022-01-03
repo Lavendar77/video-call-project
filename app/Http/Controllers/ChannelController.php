@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreChannelRequest;
 use App\Models\Channel;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ChannelController extends Controller
 {
@@ -45,7 +46,11 @@ class ChannelController extends Controller
             abort(403, 'Channel is expired.');
         }
 
-        return $channel;
+        $user->attendingChannels()->sync($channel);
+
+        return Inertia::render('Channel', [
+            'channel' => $channel,
+        ]);
     }
 
     /**
