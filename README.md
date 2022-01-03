@@ -20,4 +20,6 @@ This is a simple project for Video Calling via the web. Using Agora.io
 ## Tests
 1. Basic Video Call
    Straight from the docs...
-   ![first-test](public/first-test.png)
+   ![Test 1](public/test1.png)
+2. Small styling
+   ![Test 2](public/test2.png)
