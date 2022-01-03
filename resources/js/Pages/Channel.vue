@@ -16,6 +16,7 @@
                         <button type="button" id="leave">LEAVE</button>
 
                         <div id="local-player"></div>
+                        <div id="remote-player"></div>
                     </div>
                 </div>
             </div>
@@ -47,9 +48,12 @@ export default {
 </script>
 
 <style scoped>
-#local-player {
+#local-player, #remote-player {
     width: 640px;
     height: 480px;
     border: 1px solid red;
+}
+#remote-player {
+    border-color: blue;
 }
 </style>

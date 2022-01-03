@@ -21585,6 +21585,8 @@ var _hoisted_2 = /*#__PURE__*/_withScopeId(function () {
     id: "leave"
   }, "LEAVE"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "local-player"
+  }), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    id: "remote-player"
   })])])])], -1
   /* HOISTED */
   );
@@ -21809,23 +21811,13 @@ var rtc = {
   localVideoTrack: null,
   client: null
 };
-var options = {
-  // Pass your App ID here.
-  appId: "230863d6d677444ab572d08238588bxx",
-  // Set the channel name.
-  channel: "Demo",
-  // Pass your temp token here.
-  token: "xx6230863d6d677444ab572d08238588b71IACPxLiDe3vtsToQOkO5rXx5TmXxDc928xi6I+kQT+Y+SJ5wcHYAAAAAEADdovT0JN/TYQEAAQAh39Nh",
-  // Set the user ID.
-  uid: 123456
-};
 
-function startBasicCall() {
+function startBasicCall(_x, _x2, _x3, _x4) {
   return _startBasicCall.apply(this, arguments);
 }
 
 function _startBasicCall() {
-  _startBasicCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+  _startBasicCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(appId, token, channel, uid) {
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -21853,17 +21845,10 @@ function _startBasicCall() {
                           // Get the RemoteVideoTrack object in the AgoraRTCRemoteUser object.
                           remoteVideoTrack = user.videoTrack; // Dynamically create a container in the form of a DIV element for playing the remote video track.
 
-                          remotePlayerContainer = document.createElement("div"); // Specify the ID of the DIV container. You can use the uid of the remote user.
-
-                          remotePlayerContainer.id = user.uid.toString();
-                          remotePlayerContainer.textContent = "Remote user " + user.uid.toString();
-                          remotePlayerContainer.style.width = "640px";
-                          remotePlayerContainer.style.height = "480px";
-                          document.body.append(remotePlayerContainer); // Play the remote video track.
+                          remotePlayerContainer = document.getElementById("remote-player"); // Play the remote video track.
                           // Pass the DIV container and the SDK dynamically creates a player in the container for playing the remote video track.
 
-                          remoteVideoTrack.play(remotePlayerContainer); // Or just pass the ID of the DIV container.
-                          // remoteVideoTrack.play(playerContainer.id);
+                          remoteVideoTrack.play(remotePlayerContainer);
                         } // If the remote user publishes an audio track.
 
 
@@ -21890,7 +21875,7 @@ function _startBasicCall() {
                 }, _callee);
               }));
 
-              return function (_x, _x2) {
+              return function (_x5, _x6) {
                 return _ref.apply(this, arguments);
               };
             }());
@@ -21903,7 +21888,7 @@ function _startBasicCall() {
                     switch (_context2.prev = _context2.next) {
                       case 0:
                         _context2.next = 2;
-                        return rtc.client.join(options.appId, options.channel, options.token, options.uid);
+                        return rtc.client.join(appId, channel, token, uid);
 
                       case 2:
                         _context2.next = 4;
@@ -21921,13 +21906,7 @@ function _startBasicCall() {
 
                       case 10:
                         // Dynamically create a container in the form of a DIV element for playing the local video track.
-                        localPlayerContainer = document.getElementById("local-player"); // // Specify the ID of the DIV container. You can use the uid of the local user.
-                        // localPlayerContainer.id = options.uid;
-                        // localPlayerContainer.textContent = "Local user " + options.uid;
-                        // localPlayerContainer.style.width = "640px";
-                        // localPlayerContainer.style.height = "480px";
-                        // document.body.append(localPlayerContainer);
-                        // Play the local video track.
+                        localPlayerContainer = document.getElementById("local-player"); // Play the local video track.
                         // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
 
                         rtc.localVideoTrack.play(localPlayerContainer);
@@ -21977,7 +21956,7 @@ function _startBasicCall() {
   return _startBasicCall.apply(this, arguments);
 }
 
-startBasicCall();
+startBasicCall("230863d6d677444ab572d08238588b71", "006230863d6d677444ab572d08238588b71IACPxLiDe3vtsToQOkO5rXx5TmXxDc928xi6I+kQT+Y+SJ5wcHYAAAAAEADdovT0JN/TYQEAAQAh39Nh", "Demo", 123456);
 
 /***/ }),
 
@@ -22175,7 +22154,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#local-player[data-v-105cc82c] {\n    width: 640px;\n    height: 480px;\n    border: 1px solid red;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#local-player[data-v-105cc82c], #remote-player[data-v-105cc82c] {\n    width: 640px;\n    height: 480px;\n    border: 1px solid red;\n}\n#remote-player[data-v-105cc82c] {\n    border-color: blue;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -1,4 +1,4 @@
-import AgoraRTC from "agora-rtc-sdk-ng"
+import AgoraRTC from "agora-rtc-sdk-ng";
 
 let rtc = {
     localAudioTrack: null,
@@ -6,18 +6,7 @@ let rtc = {
     client: null
 };
 
-let options = {
-    // Pass your App ID here.
-    appId: "230863d6d677444ab572d08238588bxx",
-    // Set the channel name.
-    channel: "Demo",
-    // Pass your temp token here.
-    token: "xx6230863d6d677444ab572d08238588b71IACPxLiDe3vtsToQOkO5rXx5TmXxDc928xi6I+kQT+Y+SJ5wcHYAAAAAEADdovT0JN/TYQEAAQAh39Nh",
-    // Set the user ID.
-    uid: 123456
-};
-
-async function startBasicCall() {
+async function startBasicCall(appId, token, channel, uid) {
     // Create an AgoraRTCClient object.
     rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 
@@ -32,20 +21,11 @@ async function startBasicCall() {
             // Get the RemoteVideoTrack object in the AgoraRTCRemoteUser object.
             const remoteVideoTrack = user.videoTrack;
             // Dynamically create a container in the form of a DIV element for playing the remote video track.
-            const remotePlayerContainer = document.createElement("div");
-            // Specify the ID of the DIV container. You can use the uid of the remote user.
-            remotePlayerContainer.id = user.uid.toString();
-            remotePlayerContainer.textContent = "Remote user " + user.uid.toString();
-            remotePlayerContainer.style.width = "640px";
-            remotePlayerContainer.style.height = "480px";
-            document.body.append(remotePlayerContainer);
+            const remotePlayerContainer = document.getElementById("remote-player");
 
             // Play the remote video track.
             // Pass the DIV container and the SDK dynamically creates a player in the container for playing the remote video track.
             remoteVideoTrack.play(remotePlayerContainer);
-
-            // Or just pass the ID of the DIV container.
-            // remoteVideoTrack.play(playerContainer.id);
         }
 
         // If the remote user publishes an audio track.
@@ -67,10 +47,9 @@ async function startBasicCall() {
     });
 
     window.onload = function () {
-
         document.getElementById("join").onclick = async function () {
             // Join an RTC channel.
-            await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+            await rtc.client.join(appId, channel, token, uid);
             // Create a local audio track from the audio sampled by a microphone.
             rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
             // Create a local video track from the video captured by a camera.
@@ -79,12 +58,6 @@ async function startBasicCall() {
             await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
             // Dynamically create a container in the form of a DIV element for playing the local video track.
             const localPlayerContainer = document.getElementById("local-player");
-            // // Specify the ID of the DIV container. You can use the uid of the local user.
-            // localPlayerContainer.id = options.uid;
-            // localPlayerContainer.textContent = "Local user " + options.uid;
-            // localPlayerContainer.style.width = "640px";
-            // localPlayerContainer.style.height = "480px";
-            // document.body.append(localPlayerContainer);
 
             // Play the local video track.
             // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
@@ -110,4 +83,9 @@ async function startBasicCall() {
     }
 }
 
-startBasicCall();
+startBasicCall(
+    process.env.MIX_AGORA_APP_ID,
+    process.env.MIX_AGORA_APP_TOKEN,
+    process.env.MIX_AGORA_APP_CHANNEL,
+    123456
+);
