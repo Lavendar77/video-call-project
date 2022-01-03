@@ -63,22 +63,29 @@ async function startBasicCall(appId, token, channel, uid) {
     console.log("publish success!");
 }
 
-        document.getElementById("leave").onclick = async function () {
-            // Destroy the local audio and video tracks.
-            rtc.localAudioTrack.close();
-            rtc.localVideoTrack.close();
+async function endCall(userId = null) {
+    // Destroy the local audio and video tracks.
+    rtc.localAudioTrack.close();
+    rtc.localVideoTrack.close();
 
-            // Traverse all remote users.
-            rtc.client.remoteUsers.forEach(user => {
-                // Destroy the dynamically created DIV containers.
-                const playerContainer = document.getElementById(user.uid);
-                playerContainer && playerContainer.remove();
-            });
-
-            // Leave the channel.
-            await rtc.client.leave();
-        }
+    if (userId) {
+        // Remove the user
+        rtc.client.remoteUsers.filter(user => user.uid === userId).forEach(user => {
+            // Destroy the dynamically created DIV containers.
+            const playerContainer = document.getElementById(user.uid);
+            playerContainer && playerContainer.remove();
+        });
+    } else {
+        // Traverse all remote users.
+        rtc.client.remoteUsers.forEach(user => {
+            // Destroy the dynamically created DIV containers.
+            const playerContainer = document.getElementById(user.uid);
+            playerContainer && playerContainer.remove();
+        });
     }
+
+    // Leave the channel.
+    await rtc.client.leave();
 }
 
-export { startBasicCall };
+export { startBasicCall, endCall };

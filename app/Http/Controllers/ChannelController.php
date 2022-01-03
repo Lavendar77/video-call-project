@@ -62,12 +62,16 @@ class ChannelController extends Controller
      */
     public function close(Request $request, Channel $channel)
     {
-        if ($channel->user_id === $request->user()->id) {
+        $user = $request->user();
+
+        if ($channel->user_id === $user->id) {
             if (!$channel->closed_at) {
                 $channel->closed_at = now();
                 $channel->save();
             }
         }
+
+        $user->attendingChannels()->where('id', $channel->id)->delete();
 
         return redirect()->route('dashboard');
     }

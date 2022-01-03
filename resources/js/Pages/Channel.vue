@@ -23,7 +23,7 @@
                                     <p>(YOU)</p>
                                 </div>
                             </div>
-                            <div id="remote-player" class="rounded overflow-hidden shadow-lg"></div>
+                            <div :id="'remote-player-' + user.id" class="rounded overflow-hidden shadow-lg"></div>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import BreezeButton from '@/Components/Button.vue';
 import { Head } from '@inertiajs/inertia-vue3';
-import { startBasicCall } from '@/Plugins/agora-web-sdk';
+import { startBasicCall, endCall } from '@/Plugins/agora-web-sdk';
 
 export default {
     components: {
@@ -55,6 +55,25 @@ export default {
         },
         user() {
             return this.$page.props.auth.user;
+        }
+    },
+
+    methods: {
+        leaveOrEnd() {
+            if (this.user.id === this.channel.user_id) {
+                if (confirm("End the call completely?")) {
+                    endCall();
+                }
+            } else {
+                alert('remove me');
+                // endCall(this.user.id);
+            }
+
+            this.$inertia.visit(this.route('channels.close', {
+                channel: this.channel.id,
+            }), {
+                method: 'DELETE'
+            });
         }
     },
 

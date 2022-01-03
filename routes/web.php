@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('/channels', '/dashboard');
     Route::post('/channels', [ChannelController::class, 'store'])->name('channels.store');
     Route::get('/channels/{channel:finder}', [ChannelController::class, 'show'])->name('channels.show');
+    Route::delete('/channels/{channel}', [ChannelController::class, 'close'])->name('channels.close');
 });
 
 require __DIR__ . '/auth.php';

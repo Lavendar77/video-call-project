@@ -20055,6 +20055,23 @@ __webpack_require__.r(__webpack_exports__);
       return this.$page.props.auth.user;
     }
   },
+  methods: {
+    leaveOrEnd: function leaveOrEnd() {
+      if (this.user.id === this.channel.user_id) {
+        if (confirm("End the call completely?")) {
+          (0,_Plugins_agora_web_sdk__WEBPACK_IMPORTED_MODULE_3__.endCall)();
+        }
+      } else {
+        alert('remove me'); // endCall(this.user.id);
+      }
+
+      this.$inertia.visit(this.route('channels.close', {
+        channel: this.channel.id
+      }), {
+        method: 'DELETE'
+      });
+    }
+  },
   mounted: function mounted() {
     (0,_Plugins_agora_web_sdk__WEBPACK_IMPORTED_MODULE_3__.startBasicCall)("230863d6d677444ab572d08238588b71", "006230863d6d677444ab572d08238588b71IACPxLiDe3vtsToQOkO5rXx5TmXxDc928xi6I+kQT+Y+SJ5wcHYAAAAAEADdovT0JN/TYQEAAQAh39Nh", "Demo", this.user.id);
   }
@@ -21592,36 +21609,26 @@ var _hoisted_6 = {
   "class": "grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6"
 };
 
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("JOIN");
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("LEAVE / END CALL");
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("LEAVE");
-
-var _hoisted_9 = {
+var _hoisted_8 = {
   "class": "mt-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6"
 };
-var _hoisted_10 = {
+var _hoisted_9 = {
   id: "local-player",
   "class": "rounded overflow-hidden shadow-lg"
 };
-var _hoisted_11 = {
+var _hoisted_10 = {
   "class": "flex flex-col justify-center items-center"
 };
 
-var _hoisted_12 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_11 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "(YOU)", -1
   /* HOISTED */
   );
 });
 
-var _hoisted_13 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    id: "remote-player",
-    "class": "rounded overflow-hidden shadow-lg"
-  }, null, -1
-  /* HOISTED */
-  );
-});
-
+var _hoisted_12 = ["id"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
 
@@ -21641,8 +21648,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeButton, {
-        id: "join",
-        "class": "bg-blue-900"
+        "class": "bg-red-900",
+        onClick: $options.leaveOrEnd
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [_hoisted_7];
@@ -21650,19 +21657,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1
         /* STABLE */
 
-      }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeButton, {
-        id: "leave",
-        "class": "bg-red-900"
-      }, {
-        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-          return [_hoisted_8];
-        }),
-        _: 1
-        /* STABLE */
-
-      })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.user.name) + " ", 1
+      }, 8
+      /* PROPS */
+      , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.user.name) + " ", 1
       /* TEXT */
-      ), _hoisted_12])]), _hoisted_13])])])])])];
+      ), _hoisted_11])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        id: 'remote-player-' + $options.user.id,
+        "class": "rounded overflow-hidden shadow-lg"
+      }, null, 8
+      /* PROPS */
+      , _hoisted_12)])])])])])];
     }),
     _: 1
     /* STABLE */
@@ -21850,7 +21854,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "startBasicCall": () => (/* binding */ startBasicCall)
+/* harmony export */   "startBasicCall": () => (/* binding */ startBasicCall),
+/* harmony export */   "endCall": () => (/* binding */ endCall)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -21874,10 +21879,11 @@ function startBasicCall(_x, _x2, _x3, _x4) {
 }
 
 function _startBasicCall() {
-  _startBasicCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(appId, token, channel, uid) {
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+  _startBasicCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(appId, token, channel, uid) {
+    var localPlayerContainer;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             // Create an AgoraRTCClient object.
             rtc.client = agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_1___default().createClient({
@@ -21935,82 +21941,90 @@ function _startBasicCall() {
               return function (_x5, _x6) {
                 return _ref.apply(this, arguments);
               };
-            }());
+            }()); // Join an RTC channel.
 
-            window.onload = function () {
-              document.getElementById("join").onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-                var localPlayerContainer;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-                  while (1) {
-                    switch (_context2.prev = _context2.next) {
-                      case 0:
-                        _context2.next = 2;
-                        return rtc.client.join(appId, channel, token, uid);
+            _context2.next = 4;
+            return rtc.client.join(appId, channel, token, uid);
 
-                      case 2:
-                        _context2.next = 4;
-                        return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_1___default().createMicrophoneAudioTrack();
+          case 4:
+            _context2.next = 6;
+            return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_1___default().createMicrophoneAudioTrack();
 
-                      case 4:
-                        rtc.localAudioTrack = _context2.sent;
-                        _context2.next = 7;
-                        return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_1___default().createCameraVideoTrack();
+          case 6:
+            rtc.localAudioTrack = _context2.sent;
+            _context2.next = 9;
+            return agora_rtc_sdk_ng__WEBPACK_IMPORTED_MODULE_1___default().createCameraVideoTrack();
 
-                      case 7:
-                        rtc.localVideoTrack = _context2.sent;
-                        _context2.next = 10;
-                        return rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
+          case 9:
+            rtc.localVideoTrack = _context2.sent;
+            _context2.next = 12;
+            return rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
 
-                      case 10:
-                        // Dynamically create a container in the form of a DIV element for playing the local video track.
-                        localPlayerContainer = document.getElementById("local-player"); // Play the local video track.
-                        // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
+          case 12:
+            // Dynamically create a container in the form of a DIV element for playing the local video track.
+            localPlayerContainer = document.getElementById("local-player"); // Play the local video track.
+            // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
 
-                        rtc.localVideoTrack.play(localPlayerContainer);
-                        console.log("publish success!");
+            rtc.localVideoTrack.play(localPlayerContainer);
+            console.log("publish success!");
 
-                      case 13:
-                      case "end":
-                        return _context2.stop();
-                    }
-                  }
-                }, _callee2);
-              }));
-              document.getElementById("leave").onclick = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
-                  while (1) {
-                    switch (_context3.prev = _context3.next) {
-                      case 0:
-                        // Destroy the local audio and video tracks.
-                        rtc.localAudioTrack.close();
-                        rtc.localVideoTrack.close(); // Traverse all remote users.
-
-                        rtc.client.remoteUsers.forEach(function (user) {
-                          // Destroy the dynamically created DIV containers.
-                          var playerContainer = document.getElementById(user.uid);
-                          playerContainer && playerContainer.remove();
-                        }); // Leave the channel.
-
-                        _context3.next = 5;
-                        return rtc.client.leave();
-
-                      case 5:
-                      case "end":
-                        return _context3.stop();
-                    }
-                  }
-                }, _callee3);
-              }));
-            };
-
-          case 3:
+          case 15:
           case "end":
-            return _context4.stop();
+            return _context2.stop();
         }
       }
-    }, _callee4);
+    }, _callee2);
   }));
   return _startBasicCall.apply(this, arguments);
+}
+
+function endCall() {
+  return _endCall.apply(this, arguments);
+}
+
+function _endCall() {
+  _endCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+    var userId,
+        _args3 = arguments;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            userId = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : null;
+            // Destroy the local audio and video tracks.
+            rtc.localAudioTrack.close();
+            rtc.localVideoTrack.close();
+
+            if (userId) {
+              // Remove the user
+              rtc.client.remoteUsers.filter(function (user) {
+                return user.uid === userId;
+              }).forEach(function (user) {
+                // Destroy the dynamically created DIV containers.
+                var playerContainer = document.getElementById(user.uid);
+                playerContainer && playerContainer.remove();
+              });
+            } else {
+              // Traverse all remote users.
+              rtc.client.remoteUsers.forEach(function (user) {
+                // Destroy the dynamically created DIV containers.
+                var playerContainer = document.getElementById(user.uid);
+                playerContainer && playerContainer.remove();
+              });
+            } // Leave the channel.
+
+
+            _context3.next = 6;
+            return rtc.client.leave();
+
+          case 6:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+  return _endCall.apply(this, arguments);
 }
 
 
