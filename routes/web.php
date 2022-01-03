@@ -28,6 +28,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::redirect('/channels', '/dashboard');
     Route::post('/channels', [ChannelController::class, 'store'])->name('channels.store');
     Route::get('/channels/{channel:finder}', [ChannelController::class, 'show'])->name('channels.show');
 });
