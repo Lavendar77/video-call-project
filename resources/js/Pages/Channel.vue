@@ -13,8 +13,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                            <BreezeButton id="join" class="bg-blue-900">JOIN</BreezeButton>
-                            <BreezeButton id="leave" class="bg-red-900">LEAVE</BreezeButton>
+                            <BreezeButton class="bg-red-900" @click="leaveOrEnd">LEAVE / END CALL</BreezeButton>
                         </div>
 
                         <div class="mt-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
