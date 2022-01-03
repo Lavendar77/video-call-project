@@ -20057,19 +20057,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     leaveOrEnd: function leaveOrEnd() {
-      if (this.user.id === this.channel.user_id) {
-        if (confirm("End the call completely?")) {
-          (0,_Plugins_agora_web_sdk__WEBPACK_IMPORTED_MODULE_3__.endCall)();
-        }
-      } else {
-        alert('remove me'); // endCall(this.user.id);
+      if (confirm(this.user.id === this.channel.user_id ? "End call?" : "Leave call?")) {
+        (0,_Plugins_agora_web_sdk__WEBPACK_IMPORTED_MODULE_3__.endCall)();
+        this.$inertia.visit(this.route('channels.close', {
+          channel: this.channel.id
+        }), {
+          method: 'DELETE'
+        });
       }
-
-      this.$inertia.visit(this.route('channels.close', {
-        channel: this.channel.id
-      }), {
-        method: 'DELETE'
-      });
     }
   },
   mounted: function mounted() {
@@ -21888,8 +21883,8 @@ function _startBasicCall() {
                           _playerContainer = document.getElementsByClassName("players")[0]; // Dynamically create a container in the form of a DIV element for playing the remote video track.
 
                           remotePlayerContainer = document.createElement("div");
-                          remotePlayerContainer.id = 'remote-player-' + user.uid;
-                          remotePlayerContainer.innerHTML = "<div class=\"flex flex-col justify-center items-center\">".concat(uid, "</div>");
+                          remotePlayerContainer.id = user.uid;
+                          remotePlayerContainer.innerHTML = "<div class=\"flex flex-col justify-center items-center\">User ".concat(uid, "</div>");
                           remotePlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
 
                           _playerContainer.append(remotePlayerContainer); // Play the remote video track.
@@ -21910,9 +21905,9 @@ function _startBasicCall() {
 
                         rtc.client.on("user-unpublished", function (user) {
                           // Get the dynamically created DIV container.
-                          var remotePlayerContainer = document.getElementById('remote-player-' + user.uid); // Destroy the container.
+                          var remotePlayerContainer = document.getElementById(user.uid); // Destroy the container.
 
-                          remotePlayerContainer.remove();
+                          remotePlayerContainer && remotePlayerContainer.remove();
                         });
 
                       case 6:
@@ -21950,8 +21945,8 @@ function _startBasicCall() {
             playerContainer = document.getElementsByClassName("players")[0]; // Dynamically create a container in the form of a DIV element for playing the local video track.
 
             localPlayerContainer = document.createElement("div");
-            localPlayerContainer.id = 'local-player-' + uid;
-            localPlayerContainer.innerHTML = "<div class=\"flex flex-col justify-center items-center\">".concat(uid, "</div>");
+            localPlayerContainer.id = uid;
+            localPlayerContainer.innerHTML = "<div class=\"flex flex-col justify-center items-center\">User ".concat(uid, "</div>");
             localPlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
             playerContainer.append(localPlayerContainer); // Play the local video track.
             // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
@@ -21975,40 +21970,24 @@ function endCall() {
 
 function _endCall() {
   _endCall = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-    var userId,
-        _args3 = arguments;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            userId = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : null;
             // Destroy the local audio and video tracks.
             rtc.localAudioTrack.close();
-            rtc.localVideoTrack.close();
+            rtc.localVideoTrack.close(); // Traverse all remote users.
 
-            if (userId) {
-              // Remove
-              rtc.client.remoteUsers.filter(function (user) {
-                return user.uid === userId;
-              }).forEach(function (user) {
-                // Destroy the dynamically created DIV containers.
-                var playerContainer = document.getElementById(user.uid);
-                playerContainer && playerContainer.remove();
-              });
-            } else {
-              // Traverse all remote users.
-              rtc.client.remoteUsers.forEach(function (user) {
-                // Destroy the dynamically created DIV containers.
-                var playerContainer = document.getElementById(user.uid);
-                playerContainer && playerContainer.remove();
-              });
-            } // Leave the channel.
+            rtc.client.remoteUsers.forEach(function (user) {
+              // Destroy the dynamically created DIV containers.
+              var playerContainer = document.getElementById(user.uid);
+              playerContainer && playerContainer.remove();
+            }); // Leave the channel.
 
-
-            _context3.next = 6;
+            _context3.next = 5;
             return rtc.client.leave();
 
-          case 6:
+          case 5:
           case "end":
             return _context3.stop();
         }

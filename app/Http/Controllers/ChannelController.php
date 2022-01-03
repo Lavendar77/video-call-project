@@ -71,7 +71,7 @@ class ChannelController extends Controller
             }
         }
 
-        $user->attendingChannels()->where('id', $channel->id)->delete();
+        $user->attendingChannels()->detach($channel->id);
 
         return redirect()->route('dashboard');
     }

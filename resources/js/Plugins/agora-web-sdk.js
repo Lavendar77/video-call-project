@@ -19,15 +19,15 @@ async function startBasicCall(appId, token, channel, uid) {
         // If the remote user publishes a video track.
         if (mediaType === "video") {
             // Get the RemoteVideoTrack object in the AgoraRTCRemoteUser object.
-            const remoteVideoTrack = user.videoTrack;
+            let remoteVideoTrack = user.videoTrack;
 
             // Get the player container
-            const playerContainer = document.getElementsByClassName("players")[0];
+            let playerContainer = document.getElementsByClassName("players")[0];
 
             // Dynamically create a container in the form of a DIV element for playing the remote video track.
-            const remotePlayerContainer = document.createElement("div");
-            remotePlayerContainer.id = 'remote-player-' + user.uid;
-            remotePlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">${uid}</div>`;
+            let remotePlayerContainer = document.createElement("div");
+            remotePlayerContainer.id = user.uid;
+            remotePlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">User ${uid}</div>`;
             remotePlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
             playerContainer.append(remotePlayerContainer);
 
@@ -39,7 +39,7 @@ async function startBasicCall(appId, token, channel, uid) {
         // If the remote user publishes an audio track.
         if (mediaType === "audio") {
             // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
-            const remoteAudioTrack = user.audioTrack;
+            let remoteAudioTrack = user.audioTrack;
             // Play the remote audio track. No need to pass any DOM element.
             remoteAudioTrack.play();
         }
@@ -47,9 +47,9 @@ async function startBasicCall(appId, token, channel, uid) {
         // Listen for the "user-unpublished" event
         rtc.client.on("user-unpublished", user => {
             // Get the dynamically created DIV container.
-            const remotePlayerContainer = document.getElementById('remote-player-' + user.uid);
+            let remotePlayerContainer = document.getElementById(user.uid);
             // Destroy the container.
-            remotePlayerContainer.remove();
+            remotePlayerContainer && remotePlayerContainer.remove();
         });
 
     });
@@ -64,12 +64,12 @@ async function startBasicCall(appId, token, channel, uid) {
     await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
 
     // Get the player container
-    const playerContainer = document.getElementsByClassName("players")[0];
+    let playerContainer = document.getElementsByClassName("players")[0];
 
     // Dynamically create a container in the form of a DIV element for playing the local video track.
-    const localPlayerContainer = document.createElement("div");
-    localPlayerContainer.id = 'local-player-' + uid;
-    localPlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">${uid}</div>`;
+    let localPlayerContainer = document.createElement("div");
+    localPlayerContainer.id = uid;
+    localPlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">User ${uid}</div>`;
     localPlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
     playerContainer.append(localPlayerContainer);
 
@@ -79,26 +79,17 @@ async function startBasicCall(appId, token, channel, uid) {
     console.log("publish success!");
 }
 
-async function endCall(userId = null) {
+async function endCall() {
     // Destroy the local audio and video tracks.
     rtc.localAudioTrack.close();
     rtc.localVideoTrack.close();
 
-    if (userId) {
-        // Remove
-        rtc.client.remoteUsers.filter(user => user.uid === userId).forEach(user => {
-            // Destroy the dynamically created DIV containers.
-            const playerContainer = document.getElementById(user.uid);
-            playerContainer && playerContainer.remove();
-        });
-    } else {
-        // Traverse all remote users.
-        rtc.client.remoteUsers.forEach(user => {
-            // Destroy the dynamically created DIV containers.
-            const playerContainer = document.getElementById(user.uid);
-            playerContainer && playerContainer.remove();
-        });
-    }
+    // Traverse all remote users.
+    rtc.client.remoteUsers.forEach(user => {
+        // Destroy the dynamically created DIV containers.
+        const playerContainer = document.getElementById(user.uid);
+        playerContainer && playerContainer.remove();
+    });
 
     // Leave the channel.
     await rtc.client.leave();

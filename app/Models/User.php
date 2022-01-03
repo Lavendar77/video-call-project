@@ -51,7 +51,7 @@ class User extends Authenticatable
      */
     public function attendingChannels()
     {
-        return $this->belongsToMany(Channel::class);
+        return $this->belongsToMany(Channel::class)->withTimestamps();
     }
 
     /**

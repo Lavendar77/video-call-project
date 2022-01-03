@@ -54,20 +54,15 @@ export default {
 
     methods: {
         leaveOrEnd() {
-            if (this.user.id === this.channel.user_id) {
-                if (confirm("End the call completely?")) {
-                    endCall();
-                }
-            } else {
-                alert('remove me');
-                // endCall(this.user.id);
-            }
+            if (confirm(this.user.id === this.channel.user_id ? "End call?" : "Leave call?")) {
+                endCall();
 
-            this.$inertia.visit(this.route('channels.close', {
-                channel: this.channel.id,
-            }), {
-                method: 'DELETE'
-            });
+                this.$inertia.visit(this.route('channels.close', {
+                    channel: this.channel.id,
+                }), {
+                    method: 'DELETE'
+                });
+            }
         }
     },
 
