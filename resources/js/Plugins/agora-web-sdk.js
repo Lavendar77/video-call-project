@@ -20,8 +20,16 @@ async function startBasicCall(appId, token, channel, uid) {
         if (mediaType === "video") {
             // Get the RemoteVideoTrack object in the AgoraRTCRemoteUser object.
             const remoteVideoTrack = user.videoTrack;
+
+            // Get the player container
+            const playerContainer = document.getElementsByClassName("players")[0];
+
             // Dynamically create a container in the form of a DIV element for playing the remote video track.
-            const remotePlayerContainer = document.getElementById("remote-player");
+            const remotePlayerContainer = document.createElement("div");
+            remotePlayerContainer.id = 'remote-player-' + user.uid;
+            remotePlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">${uid}</div>`;
+            remotePlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
+            playerContainer.append(remotePlayerContainer);
 
             // Play the remote video track.
             // Pass the DIV container and the SDK dynamically creates a player in the container for playing the remote video track.
@@ -39,7 +47,7 @@ async function startBasicCall(appId, token, channel, uid) {
         // Listen for the "user-unpublished" event
         rtc.client.on("user-unpublished", user => {
             // Get the dynamically created DIV container.
-            const remotePlayerContainer = document.getElementById(user.uid);
+            const remotePlayerContainer = document.getElementById('remote-player-' + user.uid);
             // Destroy the container.
             remotePlayerContainer.remove();
         });
@@ -54,8 +62,16 @@ async function startBasicCall(appId, token, channel, uid) {
     rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack();
     // Publish the local audio and video tracks to the RTC channel.
     await rtc.client.publish([rtc.localAudioTrack, rtc.localVideoTrack]);
+
+    // Get the player container
+    const playerContainer = document.getElementsByClassName("players")[0];
+
     // Dynamically create a container in the form of a DIV element for playing the local video track.
-    const localPlayerContainer = document.getElementById("local-player");
+    const localPlayerContainer = document.createElement("div");
+    localPlayerContainer.id = 'local-player-' + uid;
+    localPlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">${uid}</div>`;
+    localPlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
+    playerContainer.append(localPlayerContainer);
 
     // Play the local video track.
     // Pass the DIV container and the SDK dynamically creates a player in the container for playing the local video track.
@@ -69,7 +85,7 @@ async function endCall(userId = null) {
     rtc.localVideoTrack.close();
 
     if (userId) {
-        // Remove the user
+        // Remove
         rtc.client.remoteUsers.filter(user => user.uid === userId).forEach(user => {
             // Destroy the dynamically created DIV containers.
             const playerContainer = document.getElementById(user.uid);

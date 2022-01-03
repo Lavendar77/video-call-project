@@ -16,14 +16,8 @@
                             <BreezeButton class="bg-red-900" @click="leaveOrEnd">LEAVE / END CALL</BreezeButton>
                         </div>
 
-                        <div class="mt-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                            <div id="local-player" class="rounded overflow-hidden shadow-lg">
-                                <div class="flex flex-col justify-center items-center">
-                                    {{ user.name }}
-                                    <p>(YOU)</p>
-                                </div>
-                            </div>
-                            <div :id="'remote-player-' + user.id" class="rounded overflow-hidden shadow-lg"></div>
+                        <div class="players mt-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6">
+                            <!-- Video call screens show here -->
                         </div>
                     </div>
                 </div>
@@ -88,8 +82,8 @@ export default {
 }
 </script>
 
-<style scoped>
-#local-player, #remote-player {
+<style>
+.player {
     height: 480px;
 }
 </style>
