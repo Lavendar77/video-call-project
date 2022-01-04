@@ -23,3 +23,5 @@ This is a simple project for Video Calling via the web. Using Agora.io
    ![Test 1](public/test1.png)
 2. Small styling
    ![Test 2](public/test2.png)
+3. Improved
+   ![Test 3](public/test3.png)
