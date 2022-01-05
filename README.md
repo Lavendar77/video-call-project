@@ -31,8 +31,10 @@ This is a simple project for Video Calling via the web. Using Agora.io
    ![Test 3](public/test3.png)
 4. Live test (laptop - mobile)
    ![Test 4](public/test4.png)
+5. Live test 2 (laptop - mobile)
+   ![Test 5](public/test5.png)
 
 
 ## Todo
-1. Modify the caller ID to show the user's name.
+1. Modify the caller ID to show the user's name/email ✅
 2. Use API to renew AGORA token when it is about to expire.
