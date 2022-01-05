@@ -27,7 +27,7 @@ async function startBasicCall(appId, token, channel, uid, channelRoom) {
             // Dynamically create a container in the form of a DIV element for playing the remote video track.
             let remotePlayerContainer = document.createElement("div");
             remotePlayerContainer.id = user.uid;
-            remotePlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">User ${uid}</div>`;
+            remotePlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">${user.uid}</div>`;
             remotePlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
             playerContainer.append(remotePlayerContainer);
 
@@ -74,7 +74,7 @@ async function startBasicCall(appId, token, channel, uid, channelRoom) {
     // Dynamically create a container in the form of a DIV element for playing the local video track.
     let localPlayerContainer = document.createElement("div");
     localPlayerContainer.id = uid;
-    localPlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">User ${uid}</div>`;
+    localPlayerContainer.innerHTML = `<div class="flex flex-col justify-center items-center">${uid} (YOU)</div>`;
     localPlayerContainer.className = 'player rounded overflow-hidden shadow-lg';
     playerContainer.append(localPlayerContainer);
 
