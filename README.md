@@ -1,6 +1,10 @@
 # Video Call Project
 This is a simple project for Video Calling via the web. Using Agora.io
 
+> Agora.io seems to allow you to manually create a channel (with a temporary token (24hours limit)), which limits my use to create multiple channels at will by users.
+> So for now, any channel a user creates will still be the same on Agora, which means that all users will join the same call 🤢
+> Will do some more research though.
+
 ## Scope
 - User creates a channel.
 - Other users may see a list of all channels.
