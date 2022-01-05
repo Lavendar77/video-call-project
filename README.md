@@ -29,5 +29,5 @@ This is a simple project for Video Calling via the web. Using Agora.io
    ![Test 2](public/test2.png)
 3. Improved
    ![Test 3](public/test3.png)
-4. Live test
+4. Live test (laptop - mobile)
    ![Test 4](public/test4.png)
