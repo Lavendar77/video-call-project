@@ -71,7 +71,7 @@ export default {
             process.env.MIX_AGORA_APP_ID,
             process.env.MIX_AGORA_APP_TOKEN,
             process.env.MIX_AGORA_APP_CHANNEL,
-            this.user.id,
+            this.user.email,
             this.channel
         );
     }
